@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sproutworks Consulting</title>
+  <meta name="description" content="Sproutworks Consulting — practical strategy, measurable outcomes." />
+  <style>
+    :root{
+      --bg: #f7f3ee;
+      --paper: rgba(255,255,255,.45);
+      --ink: #101312;
+      --muted: rgba(16,19,18,.72);
+      --accent: #2f8a6b;
+      --accent2:#caa46d;
+      --shadow: 0 22px 60px rgba(0,0,0,.10);
+      --max: 980px;
+      --padX: clamp(18px, 3.5vw, 42px);
+      --radius: 18px;
+      --ease: cubic-bezier(.2,.9,.2,1);
+      --dur: 700ms;
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    html,body{ height:100%; }
+    body{
+      color: var(--ink);
+      background: radial-gradient(1200px 700px at 15% 10%, rgba(47,138,107,.12), transparent 60%),
+                  radial-gradient(1100px 600px at 85% 75%, rgba(202,164,109,.14), transparent 55%),
+                  var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a{ color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover{ color: var(--accent); }
+
+    .page{
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding: clamp(12px, 2vh, 24px) var(--padX);
+    }
+
+    .shell{
+      width: min(var(--max), 100%);
+      max-height: calc(100vh - 24px);
+    }
+
+    .panel{
+      background: var(--paper);
+      border: 1px solid rgba(0,0,0,.07);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      padding: clamp(12px, 2.5vw, 30px) clamp(14px, 2.8vw, 38px);
+      position: relative;
+      overflow: hidden;
+      max-height: calc(100vh - 24px);
+    }
+
+    .panel::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(700px 240px at 12% 8%, rgba(47,138,107,.16), transparent 60%),
+                  radial-gradient(600px 260px at 92% 25%, rgba(202,164,109,.14), transparent 55%);
+      pointer-events:none;
+      filter: blur(0.2px);
+    }
+
+    .panel > *{ position:relative; }
+
+    /* Header */
+    .brand{
+      display:flex;
+      align-items:flex-start;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    .mark{
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+      margin-top: 3px;
+    }
+
+    /* Sprout animation */
+    .mark path:nth-child(3) {
+      stroke-dasharray: 30;
+      stroke-dashoffset: 30;
+      animation: growStem 0.6s ease-out 0.3s forwards;
+    }
+    .mark path:nth-child(2) {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: growLeaf 0.7s ease-out 0.9s forwards;
+    }
+    .mark path:nth-child(1) {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: growLeaf 0.7s ease-out 1.1s forwards;
+    }
+    @keyframes growStem { to { stroke-dashoffset: 0; } }
+    @keyframes growLeaf {
+      0% { stroke-dashoffset: 100; opacity: 0; }
+      50% { opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 1; }
+    }
+
+    .title{
+      margin:0;
+      font-weight: 520;
+      letter-spacing: .015em;
+      font-size: clamp(28px, 3.8vw, 48px);
+      line-height: 1.05;
+    }
+
+    .taglineRow{
+      margin-top: 6px;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .tagline{
+      margin:0;
+      font-size: 12.5px;
+      color: rgba(16,19,18,.78);
+      font-weight: 650;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.35);
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: rgba(16,19,18,.76);
+      letter-spacing:.01em;
+    }
+
+    .dot{
+      width: 6px; height: 6px; border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 3px rgba(47,138,107,.10);
+      animation: pulse 1200ms ease-out 1;
+    }
+
+    @keyframes pulse{
+      0%{ box-shadow: 0 0 0 0 rgba(47,138,107,.26); }
+      100%{ box-shadow: 0 0 0 10px rgba(47,138,107,0); }
+    }
+
+    .rule{
+      margin: 10px 0 14px;
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(47,138,107,.35), rgba(16,19,18,.18), rgba(202,164,109,.28), transparent);
+      border:0;
+    }
+
+    /* Hero */
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: clamp(12px, 2vw, 18px);
+      align-items:start;
+      margin-bottom: 14px;
+    }
+
+    .kicker{
+      font-size: 16px;
+      font-weight: 760;
+      margin: 0 0 6px;
+      letter-spacing: .01em;
+    }
+
+    .lead{
+      margin:0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 74ch;
+    }
+
+    .stats{
+      border: 1px solid rgba(0,0,0,.07);
+      background: rgba(255,255,255,.35);
+      border-radius: 14px;
+      padding: 10px 10px 8px;
+    }
+
+    .stats h3{
+      margin:0 0 7px;
+      font-size: 12px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: rgba(16,19,18,.72);
+    }
+
+    .statRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+    }
+
+    .stat{
+      padding: 7px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.06);
+      background: rgba(255,255,255,.28);
+    }
+
+    .stat b{
+      display:block;
+      font-size: 15px;
+      letter-spacing: .01em;
+    }
+
+    .stat span{
+      display:block;
+      color: rgba(16,19,18,.70);
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    /* Section titles */
+    .sectionTitle{
+      margin: 14px 0 5px;
+      text-align:center;
+      font-weight: 780;
+      letter-spacing: .02em;
+      font-size: clamp(18px, 2.2vw, 26px);
+      color: var(--accent);
+    }
+
+    .sectionSub{
+      margin: 0 auto 8px;
+      text-align:center;
+      max-width: 80ch;
+      color: rgba(16,19,18,.70);
+      line-height: 1.5;
+      font-size: 12.5px;
+    }
+
+    /* Services */
+    .services{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(10px, 1.8vw, 14px);
+      margin-bottom: 14px;
+    }
+
+    .card{
+      border: 1px solid rgba(0,0,0,.07);
+      background: rgba(255,255,255,.34);
+      border-radius: 16px;
+      padding: 12px 14px 11px;
+      box-shadow: 0 1px 0 rgba(0,0,0,.04);
+      transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+    }
+
+    .card h3{
+      margin: 0 0 5px;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: .01em;
+    }
+
+    .card p{
+      margin: 0 0 7px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 13px;
+    }
+
+    .card ul{
+      margin: 7px 0 0;
+      padding: 0 0 0 15px;
+      color: rgba(16,19,18,.70);
+      line-height: 1.55;
+      font-size: 12.5px;
+    }
+
+    .card li{ margin: 4px 0; }
+
+    /* Contact */
+    .contactRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(10px, 2vw, 14px);
+      margin-top: 6px;
+    }
+
+    .contactItem{
+      display:flex;
+      align-items:center;
+      gap: 11px;
+      padding: 11px 13px;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,.07);
+      background: rgba(255,255,255,.32);
+      transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+    }
+
+    .contactItem svg{
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+    }
+
+    .contactItem b{
+      display:block;
+      font-size: 12px;
+      letter-spacing:.04em;
+      text-transform: uppercase;
+      color: rgba(16,19,18,.70);
+      margin-bottom: 2px;
+    }
+
+    .contactItem a{
+      font-weight: 700;
+      color: rgba(16,19,18,.84);
+      text-decoration: none;
+      font-size: 13.5px;
+    }
+
+    .contactItem a:hover{ color: var(--accent); }
+
+    .contactItem .meta{
+      color: rgba(16,19,18,.68);
+      font-size: 11.5px;
+      margin-top: 1px;
+    }
+
+    /* Footer */
+    .footer{
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(0,0,0,.08);
+      text-align:center;
+      font-size: 11px;
+      color: rgba(16,19,18,.68);
+    }
+
+    .footSep{ margin: 0 8px; opacity: .5; }
+
+    /* Hover effects */
+    @media (hover:hover){
+      .card:hover{
+        transform: translateY(-2px);
+        box-shadow: 0 16px 32px rgba(0,0,0,.10);
+      }
+      .contactItem:hover{
+        transform: translateY(-2px);
+        box-shadow: 0 14px 28px rgba(0,0,0,.10);
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 860px){
+      .heroGrid{ grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px){
+      .services{ grid-template-columns: 1fr; }
+      .contactRow{ grid-template-columns: 1fr; }
+      .contactItem .meta{ display:none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shell">
+      <article class="panel">
+        <header class="brand">
+          <svg class="mark" viewBox="0 0 64 64">
+            <path d="M32 56c0-11 2-20 7-27 6-9 14-12 23-12-2 12-8 19-16 23-6 3-10 4-14 4" fill="none" stroke="#101312" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M32 56c0-11-2-20-7-27C19 20 11 17 2 17c2 12 8 19 16 23 6 3 10 4 14 4" fill="none" stroke="#101312" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M32 56V26" fill="none" stroke="#101312" stroke-width="3.2" stroke-linecap="round"/>
+          </svg>
+          <div>
+            <h1 class="title">Sproutworks Consulting</h1>
+            <div class="taglineRow">
+              <p class="tagline">Innovate, Grow, Succeed</p>
+              <span class="pill"><span class="dot"></span> Strategy • Execution • Results</span>
+            </div>
+          </div>
+        </header>
+
+        <hr class="rule" />
+
+        <section class="heroGrid">
+          <div>
+            <h2 class="kicker">Small Changes, Big Impact</h2>
+            <p class="lead">
+              We help individuals and organizations turn clarity into action with practical strategy and hands-on execution—so progress is measurable.
+            </p>
+          </div>
+
+          <aside class="stats">
+            <h3>Focus</h3>
+            <div class="statRow">
+              <div class="stat"><b>Growth</b><span>Market, GTM, revenue</span></div>
+              <div class="stat"><b>Operations</b><span>Process, margin</span></div>
+              <div class="stat"><b>People</b><span>Capability, coaching</span></div>
+              <div class="stat"><b>Delivery</b><span>Roadmaps, outcomes</span></div>
+            </div>
+          </aside>
+        </section>
+
+        <h2 class="sectionTitle">Services</h2>
+        <p class="sectionSub">
+          Two engagement tracks—one for individuals, one for organizations—built around clear goals and outcomes you can point to.
+        </p>
+
+        <section class="services">
+          <div class="card">
+            <h3>Individuals — Career Development</h3>
+            <p>Coaching and professional development that turns direction into momentum.</p>
+            <ul>
+              <li>Career clarity, positioning, and transitions</li>
+              <li>Interview and narrative strategy</li>
+              <li>Skill-building plans with accountability</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Organizations — Strategy & Outcomes</h3>
+            <p>Focused projects for transformation, margin improvement, and operational excellence.</p>
+            <ul>
+              <li>Growth strategy and go-to-market execution</li>
+              <li>Process improvement and capability delivery</li>
+              <li>Operational metrics and performance systems</li>
+            </ul>
+          </div>
+        </section>
+
+        <h2 class="sectionTitle">Get in Touch</h2>
+        <p class="sectionSub">Reach out directly or book a short call to explore fit and next steps.</p>
+
+        <section class="contactRow">
+          <div class="contactItem">
+            <svg viewBox="0 0 64 64">
+              <path d="M10 18h44v28H10z" fill="none" stroke="#173027" stroke-width="3.2" stroke-linejoin="round"/>
+              <path d="M12 20l20 16 20-16" fill="none" stroke="#173027" stroke-width="3.2" stroke-linecap="round"/>
+              <path d="M12 44l16-13M52 44L36 31" fill="none" stroke="#173027" stroke-width="3.2" stroke-linecap="round"/>
+            </svg>
+            <div>
+              <b>Email</b>
+              <a href="mailto:info@sproutworksconsulting.com">info@sproutworksconsulting.com</a>
+              <div class="meta">We reply within 1–2 business days.</div>
+            </div>
+          </div>
+
+          <div class="contactItem">
+            <svg viewBox="0 0 64 64">
+              <path d="M12 14h40v28H12z" fill="none" stroke="#173027" stroke-width="3.2" stroke-linejoin="round"/>
+              <path d="M24 50h16M32 42v8" fill="none" stroke="#173027" stroke-width="3.2" stroke-linecap="round"/>
+              <rect x="18" y="20" width="10" height="10" rx="2" fill="none" stroke="#173027" stroke-width="3.2"/>
+              <circle cx="43" cy="25" r="4" fill="none" stroke="#173027" stroke-width="3.2"/>
+              <path d="M38 34c1.6-3.2 7.4-3.2 9 0" fill="none" stroke="#173027" stroke-width="3.2" stroke-linecap="round"/>
+            </svg>
+            <div>
+              <b>Schedule</b>
+              <a href="https://calendly.com/" target="_blank">Book a 30-minute call</a>
+              <div class="meta">Swap in your real scheduling link.</div>
+            </div>
+          </div>
+        </section>
+      
+        <footer class="footer">
+          <span>© 2026 Sproutworks Consulting</span>
+          <span class="footSep">•</span>
+          <a href="mailto:info@sproutworksconsulting.com">info@sproutworksconsulting.com</a>
+        </footer>
+      </article>
+    </div>
+  </main>
+</body>
+</html>
